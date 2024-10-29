@@ -3,8 +3,8 @@ import numpy as np
 import pyarrow as py
 
 pd.options.display.float_format = "{:,}".format
-path_entrada = "/Users/victoria.souza/Documents/dados_mercado/base_susep"
-path_saida = "/Users/victoria.souza/Documents/dados_mercado/base_tratada"
+path_entrada = "/Users/..."
+path_saida = "/Users/....."
 
 # Grupos econômicos
 grupos_econ = pd.read_csv(
