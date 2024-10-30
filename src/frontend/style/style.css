@@ -10,7 +10,7 @@ body {
 }
 
 .sidebar {
-    width: 200px;
+    width: 100px;
     /* Largura da barra lateral */
     background-color: #EAD8B1;
     /* Cor de fundo da barra lateral */
@@ -18,7 +18,7 @@ body {
     position: fixed;
     /* Para fixar a barra lateral na tela */
     height: 100%;
-    width: 8%;
+    width: 10%;
     float: left;
     /* Altura total da tela */
     padding: 2rem;
@@ -40,7 +40,7 @@ body {
 }
 
 .sidebar ul li {
-    margin: 1rem 0;
+    margin: 2rem 0;
     /* Espaçamento entre os itens da lista */
 }
 
@@ -96,7 +96,7 @@ header nav ul li a {
 .Domínios {
     width: 12rem;
     /* Largura do contêiner */
-    height: 70px;
+    height: 60px;
     /* Altura do contêiner */
     display: flex;
     /* Ativa o flexbox */
@@ -114,14 +114,6 @@ header nav ul li a {
     /* Ajuste para criar a forma oval */
     text-align: center;
     /* Centraliza o texto */
-}
-
-.Clientes {
-    display: flex;
-    flex-wrap: wrap;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
 }
 
 .pj {
@@ -189,4 +181,32 @@ h2 {
     background-color: #80AF81;
     color: white;
     /* Cor de fundo ao passar o mouse */
+}
+
+.grafico-container {
+    max-width: 1000px;
+    margin-left: 220px;
+    /* Espaço para a sidebar */
+    padding: 20px;
+    padding-top: 220px;
+    /* Adiciona espaço acima para compensar a altura do cabeçalho */
+}
+
+canvas {
+    background-color: #f9f9f9;
+    border: 1px solid black;
+    color: #001F3F;
+    border-radius: 8px;
+    width: 100%;
+    /* O canvas ocupará 100% da largura do contêiner */
+    max-width: 800px;
+    /* Definindo uma largura máxima para o canvas */
+    height: 400px;
+    /* Altura fixa para garantir a renderização correta */
+}
+
+#meuGrafico {
+    width: 800px;
+    height: 400px;
+    color: black;
 }

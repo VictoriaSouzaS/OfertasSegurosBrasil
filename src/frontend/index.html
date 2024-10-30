@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style/style.css">
     <title>Oferta de Seguros - Brasil</title>
     <!-- Adicionando a biblioteca Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script> <!-- Biblioteca Chart.js -->
 </head>
 
 <body>
@@ -25,13 +25,9 @@
         </ul>
     </nav>
 
-    <main>
-        <section id="section1">
-            <h2>Ranking principais seguradoras</h2>
-            <p>Este é o conteúdo da seção 1.</p>
-            <canvas id="meuGrafico" width="400" height="200"></canvas>
-        </section>
-    </main>
+    <div class="grafico-container">
+        <canvas id="meuGrafico" width="800" height="400"></canvas> <!-- Definindo um tamanho para o canvas -->
+    </div>
 
     <!-- Link para o arquivo JavaScript -->
     <script src="scripts/app.js"></script>
