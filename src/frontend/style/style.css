@@ -185,7 +185,8 @@ h2 {
 
 .grafico-container {
     max-width: 1000px;
-    margin-left: 220px;
+    max-height: 1000px;
+    margin-left: 180px;
     /* Espaço para a sidebar */
     padding: 20px;
     padding-top: 220px;
@@ -194,7 +195,7 @@ h2 {
 
 canvas {
     background-color: #f9f9f9;
-    border: 1px solid black;
+    border: 1px solid #7d8287;
     color: #001F3F;
     border-radius: 8px;
     width: 100%;
