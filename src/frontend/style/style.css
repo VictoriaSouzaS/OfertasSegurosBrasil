@@ -150,31 +150,8 @@ h2 {
     color: #333;
 }
 
-.botao {
-    display: inline-block;
-    /* Faz com que os links se comportem como botões */
-    padding: 10px 15px;
-    /* Espaçamento interno do botão */
-    margin: 10px 0;
-    /* Margem entre os botões */
-    background-color: #001F3F;
-    /* Cor de fundo */
-    color: white;
-    /* Cor do texto */
-    text-decoration: none;
-    /* Remove o sublinhado */
-    border-radius: 5px;
-    /* Bordas arredondadas */
-    text-align: center;
-    /* Centraliza o texto */
-    transition: background-color 0.3s;
-    /* Transição suave na mudança de cor */
-    width: 6rem;
-}
-
-
 .grafico-container {
-    max-width: 75%;
+    max-width: 80%;
     align-items: flex-start;
     margin-left: 190px;
     /* Espaço para a sidebar */
@@ -188,7 +165,7 @@ h2 {
     /* Sombra para destacar o gráfico */
     border-radius: 30px;
     /* Bordas arredondadas para um visual mais suave */
-    max-height: 600px;
+    max-height: 800px;
     /* Ajusta ao tamanho do conteúdo */
 }
 
@@ -202,14 +179,14 @@ canvas {
     /* O canvas ocupará 100% da largura do contêiner */
     max-width: 1700px;
     /* Definindo uma largura máxima para o canvas */
-    height: 400px;
-    max-height: 400px;
+    height: 600px;
+    max-height: 600px;
     /* Altura fixa para garantir a renderização correta */
 }
 
 #meuGrafico {
     width: 1700px;
-    height: 400px;
+    height: 600px;
     color: black;
 }
 
