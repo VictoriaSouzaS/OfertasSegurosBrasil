@@ -101,6 +101,33 @@ header nav ul {
     list-style-type: none;
 }
 
+.titulo-grafico {
+    color: #001F3F;
+    text-align: left;
+    margin-bottom: 1rem;
+    /* Ajuste a margem conforme necessário */
+    font-size: 1.5rem;
+    /* Centraliza o texto */
+    margin: 0;
+    /* Remove margens para evitar espaçamento extra */
+    padding-bottom: 10px;
+    /* Espaçamento entre o título e o gráfico, ajuste conforme necessário */
+}
+
+
+h1 {
+    margin: 2rem 0;
+    /* Ajuste conforme necessário */
+    color: #001F3F;
+    /* Para garantir que o texto tenha uma cor visível */
+    text-align: center;
+    /* Centraliza o texto */
+    position: relative;
+    /* Adicione essa linha para garantir que o z-index funcione */
+    z-index: 10;
+    /* Aumente o z-index */
+}
+
 header nav ul li a {
     color: black;
     margin: 2rem;
@@ -147,12 +174,13 @@ h2 {
 
 
 .grafico-container {
-    max-width: 70%;
+    max-width: 75%;
+    align-items: flex-start;
     margin-left: 190px;
     /* Espaço para a sidebar */
     padding: 20px;
     /* Espaçamento interno */
-    padding-top: 220px;
+    padding-top: 150px;
     /* Adiciona espaço acima para compensar a altura do cabeçalho */
     overflow: auto;
     /* Adiciona rolagem se o conteúdo for maior que o contêiner */
@@ -160,10 +188,9 @@ h2 {
     /* Sombra para destacar o gráfico */
     border-radius: 30px;
     /* Bordas arredondadas para um visual mais suave */
-    height: auto;
+    max-height: 600px;
     /* Ajusta ao tamanho do conteúdo */
 }
-
 
 
 canvas {
@@ -173,14 +200,15 @@ canvas {
     border-radius: 8px;
     width: 100%;
     /* O canvas ocupará 100% da largura do contêiner */
-    max-width: 1500px;
+    max-width: 1700px;
     /* Definindo uma largura máxima para o canvas */
     height: 400px;
+    max-height: 400px;
     /* Altura fixa para garantir a renderização correta */
 }
 
 #meuGrafico {
-    width: 1500px;
+    width: 1700px;
     height: 400px;
     color: black;
 }
