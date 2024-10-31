@@ -22,7 +22,7 @@ async function filtrarGraficoPorUF() {
     const ufSelecionada = document.getElementById('uf-select').value;
     const response = await fetch(jsonPath);
     const dadosJson = await response.json();
-    const dadosFiltrados = dadosJson.filter(item => item.uf === ufSelecionada || ufSelecionada === 'Todos');
+    const dadosFiltrados = dadosJson.filter(item => item.uf === ufSelecionada || ufSelecionada === 'Todas');
     criarGrafico(dadosFiltrados);
 }
 
@@ -80,8 +80,8 @@ async function carregarCategorias() {
         const categoriasSelect = document.getElementById('categoria-select');
         categoriasSelect.innerHTML = '';
         const optionTodos = document.createElement('option');
-        optionTodos.value = 'Todos';
-        optionTodos.textContent = 'Todos';
+        optionTodos.value = 'Todas';
+        optionTodos.textContent = 'Todas';
         categoriasSelect.appendChild(optionTodos);
         categoriasUnicas.forEach(categoria => {
             const option = document.createElement('option');
@@ -100,7 +100,7 @@ async function filtraGraficoPorCategoria() {
     try {
         const response = await fetch(jsonPath);
         const dadosJson = await response.json();
-        const dadosFiltrados = dadosJson.filter(item => item.nome_ramo === categoriaSelecionada || categoriaSelecionada === 'Todos');
+        const dadosFiltrados = dadosJson.filter(item => item.nome_ramo === categoriaSelecionada || categoriaSelecionada === 'Todas');
         criarGrafico(dadosFiltrados);
     } catch (error) {
         console.error("Erro ao filtrar os dados:", error);
@@ -115,8 +115,8 @@ async function carregarUfs() {
         const ufsUnicos = [...new Set(data.map(item => item.uf))].sort();
         const ufSelect = document.getElementById('uf-select');
         const optionTodos = document.createElement('option');
-        optionTodos.value = 'Todos';
-        optionTodos.textContent = 'Todos';
+        optionTodos.value = 'Todas';
+        optionTodos.textContent = 'Todas';
         ufSelect.appendChild(optionTodos);
         ufsUnicos.forEach(uf => {
             const option = document.createElement('option');
