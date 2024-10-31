@@ -92,6 +92,7 @@ header {
 
 header h2 {
     margin: 2rem;
+    margin-left: 200px;
     color: aliceblue;
 }
 
@@ -353,4 +354,12 @@ label[for="uf-select"] {
     /* Cor do texto da label */
     margin-right: 5px;
     /* Espaçamento entre a label e o select */
+}
+
+footer {
+    font-size: 12px;
+    color: #001F3F;
+    text-align: center;
+    padding: 1px;
+
 }
