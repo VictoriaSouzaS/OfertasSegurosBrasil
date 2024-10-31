@@ -3,7 +3,7 @@
 
 Este repositório foi criado para desenvolver uma aplicação com base nos dados abertos publicados periodicamente pela SUSEP (Superintendência de Seguros Privados).
 
-## Ferramentas e Linguagens Utilizadas
+## Tecnologia(s) usadas
 
 - **[Visual Studio Code](https://code.visualstudio.com/download)**: Ambiente de desenvolvimento integrado (IDE) que oferece recursos avançados para codificação.
   
