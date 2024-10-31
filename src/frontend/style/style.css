@@ -363,6 +363,9 @@ label[for="uf-select"] {
 .periodo-container select,
 .categoria-container select {
     margin-top: 7px;
+    position: relative;
+    /* Permite controlar a posição */
+
 
 }
 

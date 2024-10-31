@@ -22,7 +22,7 @@ async function filtrarGraficoPorUF() {
     const ufSelecionada = document.getElementById('uf-select').value;
     const response = await fetch(jsonPath);
     const dadosJson = await response.json();
-    const dadosFiltrados = dadosJson.filter(item => item.uf === ufSelecionada);
+    const dadosFiltrados = dadosJson.filter(item => item.uf === ufSelecionada || ufSelecionada === 'Todos');
     criarGrafico(dadosFiltrados);
 }
 
@@ -40,6 +40,10 @@ async function carregarPeriodos() {
 
         const periodoSelect = document.getElementById('periodo-select');
         periodoSelect.innerHTML = '';
+        const optionTodos = document.createElement('option');
+        optionTodos.value = 'Todos';
+        optionTodos.textContent = 'Todos';
+        periodoSelect.appendChild(optionTodos);
         periodosUnicos.forEach(periodo => {
             const option = document.createElement('option');
             option.value = periodo;
@@ -61,7 +65,7 @@ async function filtraGraficoPorMes() {
         const mes = dataItem.toLocaleString('default', { month: 'short' }).slice(0, 3);
         const ano = dataItem.getFullYear();
         const mesAnoFormatado = `${mes}/${ano}`;
-        return mesAnoFormatado === periodoSelecionado;
+        return mesAnoFormatado === periodoSelecionado || periodoSelecionado === 'Todos';
     });
 
     criarGrafico(dadosFiltrados);
@@ -72,9 +76,13 @@ async function carregarCategorias() {
         const response = await fetch(jsonPath);
         const data = await response.json();
 
-        const categoriasUnicas = [...new Set(data.map(item => item.nome_ramo))];
+        const categoriasUnicas = [...new Set(data.map(item => item.nome_ramo))].sort();
         const categoriasSelect = document.getElementById('categoria-select');
         categoriasSelect.innerHTML = '';
+        const optionTodos = document.createElement('option');
+        optionTodos.value = 'Todos';
+        optionTodos.textContent = 'Todos';
+        categoriasSelect.appendChild(optionTodos);
         categoriasUnicas.forEach(categoria => {
             const option = document.createElement('option');
             option.value = categoria;
@@ -92,7 +100,7 @@ async function filtraGraficoPorCategoria() {
     try {
         const response = await fetch(jsonPath);
         const dadosJson = await response.json();
-        const dadosFiltrados = dadosJson.filter(item => item.nome_ramo === categoriaSelecionada);
+        const dadosFiltrados = dadosJson.filter(item => item.nome_ramo === categoriaSelecionada || categoriaSelecionada === 'Todos');
         criarGrafico(dadosFiltrados);
     } catch (error) {
         console.error("Erro ao filtrar os dados:", error);
@@ -104,8 +112,12 @@ async function carregarUfs() {
         const response = await fetch(jsonPath);
         const data = await response.json();
 
-        const ufsUnicos = [...new Set(data.map(item => item.uf))];
+        const ufsUnicos = [...new Set(data.map(item => item.uf))].sort();
         const ufSelect = document.getElementById('uf-select');
+        const optionTodos = document.createElement('option');
+        optionTodos.value = 'Todos';
+        optionTodos.textContent = 'Todos';
+        ufSelect.appendChild(optionTodos);
         ufsUnicos.forEach(uf => {
             const option = document.createElement('option');
             option.value = uf;
@@ -140,22 +152,28 @@ function criarGrafico(dados) {
 
     const entidadesComPremios = Object.entries(premiosPorEntidade)
         .map(([entidade, premio]) => ({ entidade, premio }));
-    const premiosValidos = entidadesComPremios.filter(item => item.premio > 0);
 
-    const totalPremio = premiosValidos.reduce((acc, item) => acc + Math.round(item.premio * 100) / 100, 0);
+    const totalPremio = entidadesComPremios.reduce((acc, item) => acc + item.premio, 0);
     console.log('Total de prêmios válidos:', totalPremio);
 
+    let topEntidades; // Definindo topEntidades aqui
+
+    // Se total de prêmios for zero, garantir que todas as entidades sejam mostradas como 0%
     if (totalPremio === 0) {
-        console.error('Total de prêmios é zero. Verifique os dados.');
-        return;
+        const todasEntidades = [...new Set(dados.map(item => item.nome_entidade))];
+        topEntidades = todasEntidades.map(entidade => ({
+            entidade,
+            porcentagem: 0 // Definindo como 0%
+        }));
+    } else {
+        topEntidades = entidadesComPremios.map(item => ({
+            entidade: item.entidade,
+            porcentagem: (item.premio / totalPremio) * 100,
+        }));
     }
 
-    const topEntidades = premiosValidos.map(item => ({
-        entidade: item.entidade,
-        porcentagem: (item.premio / totalPremio) * 100,
-    }));
-
     const topEntidadesOrdenadas = topEntidades.sort((a, b) => b.porcentagem - a.porcentagem).slice(0, 20);
+
     const topEntidadesLabels = topEntidadesOrdenadas.map(item => item.entidade);
     const topEntidadesPorcentagens = topEntidadesOrdenadas.map(item => item.porcentagem);
 
@@ -225,4 +243,3 @@ function criarGrafico(dados) {
 }
 
 carregarDados();
-
