@@ -19,4 +19,5 @@ Este repositório foi criado para desenvolver uma aplicação com base nos dados
 
 ## Produto Final 
 Exemplo (Em desenvolvimento)
-<img width="1364" alt="Screenshot 2024-10-31 at 10 04 11" src="https://github.com/user-attachments/assets/862a714a-4a80-45ba-b656-69f5ca28aab7">
+<img width="1441" alt="Screenshot 2024-10-31 at 13 12 19" src="https://github.com/user-attachments/assets/37a82d91-88fb-402c-bc56-241a65040b38">
+
