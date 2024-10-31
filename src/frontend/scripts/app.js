@@ -137,9 +137,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let meuGrafico;
 
-function criarGrafico(dados) {
+async function criarGrafico(dados) {
+    // Filtrar dados de acordo com as seleções
+    const ufSelecionada = document.getElementById('uf-select').value;
+    const periodoSelecionado = document.getElementById('periodo-select').value;
+    const categoriaSelecionada = document.getElementById('categoria-select').value;
+
+    // Filtrar dados com base nas seleções
+    const dadosFiltrados = dados.filter(item => {
+        const dataItem = new Date(item.periodo);
+        const mes = dataItem.toLocaleString('default', { month: 'short' }).slice(0, 3);
+        const ano = dataItem.getFullYear();
+        const mesAnoFormatado = `${mes}/${ano}`;
+
+        return (
+            (item.uf === ufSelecionada || ufSelecionada === 'Todas') &&
+            (mesAnoFormatado === periodoSelecionado || periodoSelecionado === 'Todos') &&
+            (item.nome_ramo === categoriaSelecionada || categoriaSelecionada === 'Todas') &&
+            item.premio_dir > 0 // Considera apenas prêmios maiores que 0
+        );
+    });
+
     const premiosPorEntidade = {};
-    dados.forEach(item => {
+    dadosFiltrados.forEach(item => {
         const nomeEntidade = item.nome_entidade;
         const premio = item.premio_dir;
 
@@ -153,6 +173,7 @@ function criarGrafico(dados) {
     const entidadesComPremios = Object.entries(premiosPorEntidade)
         .map(([entidade, premio]) => ({ entidade, premio }));
 
+    // Calcular o total de prêmios
     const totalPremio = entidadesComPremios.reduce((acc, item) => acc + item.premio, 0);
     console.log('Total de prêmios válidos:', totalPremio);
 
@@ -242,4 +263,3 @@ function criarGrafico(dados) {
     }
 }
 
-carregarDados();
