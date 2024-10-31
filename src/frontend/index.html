@@ -19,18 +19,30 @@
     <nav class="sidebar">
         <ul>
             <li>
-                <a href="uf" class="botao">UF</a>
-                <a href="ano_mes" class="botao">Ano/mês</a>
-                <a href="Categoria" class="botao">Categoria</a>
-                <a href="Fonte" class="botao">Fonte</a>
+                <div class="uf-container">
+                    <label for="uf-select">UF:</label>
+                    <select id="uf-select" class="seletor" onchange="filtrarGraficoPorUF()"></select>
+                    <option value="">Selecione</option>
+                </div>
+                <div class="periodo-container">
+                    <label for="periodo-select">Mês:</label>
+                    <select id="periodo-select" class="seletor" onchange="filtraGraficoPorMes()"></select>
+                    <option value="">Selecione</option>
+                </div>
+                <div class="categoria-container">
+                    <label for="categoria-select">Categoria:</label>
+                    <select id="categoria-select" class="seletor" onchange="filtraGraficoPorCategoria()"></select>
+                    <option value="">Selecione</option>
+                </div>
             </li>
         </ul>
     </nav>
-
-    <div class="grafico-container">
-        <canvas id="meuGrafico" width="800" height="400"></canvas> <!-- Definindo um tamanho para o canvas -->
+    <div class="conteudo">
+        <h1>Presença por seguradora</h1>
+        <div class="grafico-container">
+            <canvas id="meuGrafico" width="1500" height="400"></canvas>
+        </div>
     </div>
-
     <!-- Link para o arquivo JavaScript -->
     <script src="scripts/app.js"></script>
 </body>

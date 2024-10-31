@@ -10,9 +10,10 @@ body {
 }
 
 .sidebar {
-    width: 100px;
+    width: 10%;
     /* Largura da barra lateral */
-    background-color: #EAD8B1;
+    background-color: #f9f9f9;
+    border-radius: 5px;
     /* Cor de fundo da barra lateral */
     color: white;
     position: fixed;
@@ -24,7 +25,8 @@ body {
     padding: 2rem;
     padding-top: 110px;
     /* Adiciona espaço acima para compensar a altura do cabeçalho */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3)
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
 }
 
 .sidebar h4 {
@@ -37,6 +39,10 @@ body {
     /* Remove as bolinhas da lista */
     padding: 0;
     /* Remove o padding padrão */
+    flex-direction: column;
+    /* Alinha os itens na coluna */
+    gap: 20px;
+    /* Espaço entre os itens */
 }
 
 .sidebar ul li {
@@ -50,12 +56,20 @@ body {
     list-style-type: none;
     text-decoration: none;
     /* Remove o sublinhado dos links */
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    text-align: center;
+    /* Centraliza o texto */
+    transition: background-color 0.3s;
+    /* Transição suave na mudança de cor */
+
 }
 
 .sidebar ul li a:hover {
     text-decoration: underline;
     /* Sublinha o link ao passar o mouse */
 }
+
 
 
 header {
@@ -88,59 +102,13 @@ header nav ul {
 }
 
 header nav ul li a {
-    color: aliceblue;
+    color: black;
     margin: 2rem;
     font-size: 1.2rem;
 }
 
-.Domínios {
-    width: 12rem;
-    /* Largura do contêiner */
-    height: 60px;
-    /* Altura do contêiner */
-    display: flex;
-    /* Ativa o flexbox */
-    justify-content: center;
-    /* Centraliza horizontalmente */
-    align-items: center;
-    /* Centraliza verticalmente */
-    padding: 0.7rem;
-    margin: 1rem;
-    flex: 0 1 calc(30% - 20px);
-    max-width: 20rem;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: 20%;
-    /* Ajuste para criar a forma oval */
-    text-align: center;
-    /* Centraliza o texto */
-}
-
-.pj {
-    width: 100%;
-    /* Ocupar 100% da largura do contêiner pai */
-    height: 100%;
-    /* Ocupar toda a altura do contêiner pai */
-    display: flex;
-    /* Ativa o flexbox */
-    justify-content: center;
-    /* Centraliza horizontalmente */
-    align-items: center;
-    /* Centraliza verticalmente */
-    text-align: center;
-    /* Centraliza o texto */
-}
-
-.pj h4 {
-    font-size: 1rem;
-    /* Tamanho da fonte */
-    color: black;
-    margin: 0;
-    /* Remove as margens padrão do <h4> */
-}
-
 main {
-    margin-left: 220px;
+    margin-left: 10px;
     /* Margem para evitar que o conteúdo fique por cima da barra lateral */
     padding: 1rem;
     /* Padding para o conteúdo principal */
@@ -177,21 +145,26 @@ h2 {
     width: 6rem;
 }
 
-.botao:hover {
-    background-color: #80AF81;
-    color: white;
-    /* Cor de fundo ao passar o mouse */
-}
 
 .grafico-container {
-    max-width: 1000px;
-    max-height: 1000px;
-    margin-left: 180px;
+    max-width: 70%;
+    margin-left: 190px;
     /* Espaço para a sidebar */
     padding: 20px;
+    /* Espaçamento interno */
     padding-top: 220px;
     /* Adiciona espaço acima para compensar a altura do cabeçalho */
+    overflow: auto;
+    /* Adiciona rolagem se o conteúdo for maior que o contêiner */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    /* Sombra para destacar o gráfico */
+    border-radius: 30px;
+    /* Bordas arredondadas para um visual mais suave */
+    height: auto;
+    /* Ajusta ao tamanho do conteúdo */
 }
+
+
 
 canvas {
     background-color: #f9f9f9;
@@ -200,14 +173,176 @@ canvas {
     border-radius: 8px;
     width: 100%;
     /* O canvas ocupará 100% da largura do contêiner */
-    max-width: 800px;
+    max-width: 1500px;
     /* Definindo uma largura máxima para o canvas */
     height: 400px;
     /* Altura fixa para garantir a renderização correta */
 }
 
 #meuGrafico {
-    width: 800px;
+    width: 1500px;
     height: 400px;
     color: black;
+}
+
+label[for="uf-select"] {
+    color: black;
+}
+
+.uf-container {
+    display: flex;
+    /* Use flexbox para alinhar os itens */
+    flex-direction: column;
+    /* Coloca a label em cima do select */
+    align-items: center;
+    /* Centraliza os itens */
+    border: 2px solid #001F3F;
+    padding: 8px;
+    border-radius: 8px;
+    /* Aumentado para ficar mais suave */
+    box-sizing: border-box;
+    width: 140px;
+    background-color: #001F3F;
+    margin: 10px 0;
+    /* Adiciona espaço entre os containers */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    transition: box-shadow 0.3s ease;
+    /* Transição suave ao passar o mouse */
+}
+
+.uf-container:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    /* Aumenta a sombra ao passar o mouse */
+}
+
+
+.uf-container label {
+    color: beige;
+    /* Cor do texto da label */
+    margin-right: 5px;
+    /* Espaçamento entre a label e o select */
+}
+
+.periodo-container {
+    display: block;
+    align-items: center;
+    border: 2px solid #001F3F;
+    padding: 8px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 140px;
+    background-color: #001F3F;
+    margin-left: 0;
+    margin-right: 0;
+    /* Remove margem à esquerda */
+}
+
+.periodo-container label {
+    color: beige;
+    /* Cor do texto da label */
+    margin-right: 5px;
+    /* Espaçamento entre a label e o select */
+}
+
+.categoria-container {
+    display: block;
+    align-items: center;
+    border: 2px solid #001F3F;
+    padding: 8px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 140px;
+    background-color: #001F3F;
+    margin-left: 0;
+    margin-right: 0;
+    /* Remove margem à esquerda */
+}
+
+.categoria-container label {
+    color: beige;
+    /* Cor do texto da label */
+    margin-right: 5px;
+    margin-top: 2px;
+    /* Espaçamento entre a label e o select */
+}
+
+
+.seletor {
+    background-color: #001F3F;
+    /* Cor de fundo da caixa de seleção */
+    color: beige;
+    /* Cor do texto */
+    border: 2px solid beige;
+    /* Cor e espessura da borda */
+    padding: 5px;
+    /* Espaço interno */
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    appearance: none;
+    /* Remove o estilo padrão para aplicar os estilos customizados */
+    -webkit-appearance: none;
+    /* Para compatibilidade com navegadores Webkit */
+    -moz-appearance: none;
+    /* Para compatibilidade com Firefox */
+    width: 120px;
+}
+
+/* Estilo da seta da caixa de seleção */
+.seletor::after {
+    content: "▼";
+    /* Adiciona um símbolo de seta */
+    color: beige;
+    /* Cor da seta */
+    position: absolute;
+    right: 10px;
+    pointer-events: none;
+    /* Impede que a seta bloqueie o clique */
+}
+
+.uf-container,
+.periodo-container,
+.categoria-container {
+    display: flex;
+    /* Usar flexbox para alinhar os itens */
+    flex-direction: column;
+    /* Coloca a label em cima do select */
+    align-items: center;
+    /* Centraliza os itens */
+    border: 2px solid #001F3F;
+    padding: 8px;
+    border-radius: 8px;
+    /* Bordas arredondadas */
+    box-sizing: border-box;
+    width: 140px;
+    background-color: #001F3F;
+    margin: 20px 0;
+    /* Espaço entre os containers */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    /* Sombra suave */
+    transition: box-shadow 0.3s ease;
+    /* Transição suave ao passar o mouse */
+}
+
+.uf-container:hover,
+.periodo-container:hover,
+.categoria-container:hover {
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+    /* Sombra mais forte ao passar o mouse */
+}
+
+.uf-container select,
+.periodo-container select,
+.categoria-container select {
+    margin-top: 7px;
+
+}
+
+.uf-container label,
+.periodo-container label,
+.categoria-container label {
+    color: beige;
+    /* Cor do texto da label */
+    margin-right: 5px;
+    /* Espaçamento entre a label e o select */
 }

@@ -3,80 +3,174 @@ async function carregarDados() {
         console.log('Carregando JSON de:', '/../data/base_premio_uf.json');
         const response = await fetch('/../data/base_premio_uf.json');
 
-        // Verifica se a resposta do fetch foi bem-sucedida
         if (!response.ok) {
             throw new Error('Erro ao carregar o JSON: ' + response.statusText);
         }
 
-        // Faz o parse do JSON e exibe no console
         const dadosJson = await response.json();
         console.log('Dados JSON carregados:', dadosJson);
 
-        // Chama a função para criar o gráfico com os dados carregados
         criarGrafico(dadosJson);
     } catch (error) {
-        // Exibe um erro no console, se ocorrer
         console.error('Erro ao carregar os dados JSON:', error);
     }
 }
 
-let meuGrafico; // Variável para armazenar a instância do gráfico
+const jsonPath = '/../data/base_premio_uf.json';
+
+async function filtrarGraficoPorUF() {
+    const ufSelecionada = document.getElementById('uf-select').value;
+    const response = await fetch(jsonPath);
+    const dadosJson = await response.json();
+    const dadosFiltrados = dadosJson.filter(item => item.uf === ufSelecionada);
+    criarGrafico(dadosFiltrados);
+}
+
+async function carregarPeriodos() {
+    try {
+        const response = await fetch(jsonPath);
+        const data = await response.json();
+
+        const periodosUnicos = [...new Set(data.map(item => {
+            const dataItem = new Date(item.periodo);
+            const mes = dataItem.toLocaleString('default', { month: 'short' }).slice(0, 3);
+            const ano = dataItem.getFullYear();
+            return `${mes}/${ano}`;
+        }))];
+
+        const periodoSelect = document.getElementById('periodo-select');
+        periodoSelect.innerHTML = '';
+        periodosUnicos.forEach(periodo => {
+            const option = document.createElement('option');
+            option.value = periodo;
+            option.textContent = periodo;
+            periodoSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Erro ao carregar os dados do JSON:", error);
+    }
+}
+
+async function filtraGraficoPorMes() {
+    const periodoSelecionado = document.getElementById('periodo-select').value;
+    const response = await fetch(jsonPath);
+    const dadosJson = await response.json();
+
+    const dadosFiltrados = dadosJson.filter(item => {
+        const dataItem = new Date(item.periodo);
+        const mes = dataItem.toLocaleString('default', { month: 'short' }).slice(0, 3);
+        const ano = dataItem.getFullYear();
+        const mesAnoFormatado = `${mes}/${ano}`;
+        return mesAnoFormatado === periodoSelecionado;
+    });
+
+    criarGrafico(dadosFiltrados);
+}
+
+async function carregarCategorias() {
+    try {
+        const response = await fetch(jsonPath);
+        const data = await response.json();
+
+        const categoriasUnicas = [...new Set(data.map(item => item.nome_ramo))];
+        const categoriasSelect = document.getElementById('categoria-select');
+        categoriasSelect.innerHTML = '';
+        categoriasUnicas.forEach(categoria => {
+            const option = document.createElement('option');
+            option.value = categoria;
+            option.textContent = categoria;
+            categoriasSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Erro ao carregar os dados do JSON:", error);
+    }
+}
+
+async function filtraGraficoPorCategoria() {
+    const categoriaSelecionada = document.getElementById('categoria-select').value;
+
+    try {
+        const response = await fetch(jsonPath);
+        const dadosJson = await response.json();
+        const dadosFiltrados = dadosJson.filter(item => item.nome_ramo === categoriaSelecionada);
+        criarGrafico(dadosFiltrados);
+    } catch (error) {
+        console.error("Erro ao filtrar os dados:", error);
+    }
+}
+
+async function carregarUfs() {
+    try {
+        const response = await fetch(jsonPath);
+        const data = await response.json();
+
+        const ufsUnicos = [...new Set(data.map(item => item.uf))];
+        const ufSelect = document.getElementById('uf-select');
+        ufsUnicos.forEach(uf => {
+            const option = document.createElement('option');
+            option.value = uf;
+            option.textContent = uf;
+            ufSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Erro ao carregar os dados do JSON:", error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    carregarCategorias();
+    carregarUfs();
+    carregarPeriodos();
+});
+
+let meuGrafico;
 
 function criarGrafico(dados) {
-    // Extrai os nomes das entidades e os prêmios do JSON
-    const entidades = dados.map(item => item.nome_entidade);
-    const premios = dados.map(item => item.premio_dir);
+    const premiosPorEntidade = {};
+    dados.forEach(item => {
+        const nomeEntidade = item.nome_entidade;
+        const premio = item.premio_dir;
 
-    // Filtra os prêmios para incluir apenas aqueles maiores que zero
-    const premiosValidos = premios.filter(premio => premio > 0);
+        if (premiosPorEntidade[nomeEntidade]) {
+            premiosPorEntidade[nomeEntidade] += premio;
+        } else {
+            premiosPorEntidade[nomeEntidade] = premio;
+        }
+    });
 
-    // Calcula o total dos prêmios válidos
-    const totalPremio = premiosValidos
-        .filter(val => typeof val === 'number' && !isNaN(val))
-        .reduce((acc, val) => acc + Math.round(val * 100) / 100, 0);
+    const entidadesComPremios = Object.entries(premiosPorEntidade)
+        .map(([entidade, premio]) => ({ entidade, premio }));
+    const premiosValidos = entidadesComPremios.filter(item => item.premio > 0);
+
+    const totalPremio = premiosValidos.reduce((acc, item) => acc + Math.round(item.premio * 100) / 100, 0);
     console.log('Total de prêmios válidos:', totalPremio);
 
-    // Verifica se o total é maior que zero para evitar divisões por zero
     if (totalPremio === 0) {
         console.error('Total de prêmios é zero. Verifique os dados.');
         return;
     }
 
-    // Calcula a porcentagem de cada prêmio em relação ao total
-    const porcentagens = premiosValidos.map(premio => (premio / totalPremio) * 100);
-    console.log('Porcentagens calculadas:', porcentagens);
-
-    // Cria um array de objetos com entidades e suas porcentagens
-    const entidadesComPorcentagens = entidades.map((entidade, index) => ({
-        entidade,
-        porcentagem: porcentagens[index],
+    const topEntidades = premiosValidos.map(item => ({
+        entidade: item.entidade,
+        porcentagem: (item.premio / totalPremio) * 100,
     }));
 
-    // Classifica as entidades por porcentagem em ordem decrescente e pega as 20 maiores
-    const topEntidades = entidadesComPorcentagens
-        .sort((a, b) => b.porcentagem - a.porcentagem)
-        .slice(0, 20);
+    const topEntidadesOrdenadas = topEntidades.sort((a, b) => b.porcentagem - a.porcentagem).slice(0, 20);
+    const topEntidadesLabels = topEntidadesOrdenadas.map(item => item.entidade);
+    const topEntidadesPorcentagens = topEntidadesOrdenadas.map(item => item.porcentagem);
 
-    // Extrai os nomes das entidades e as porcentagens para os dados do gráfico
-    const topEntidadesLabels = topEntidades.map(item => item.entidade);
-    const topEntidadesPorcentagens = topEntidades.map(item => item.porcentagem);
-
-    // Adicione este log para verificar os dados
     console.log('Top 20 entidades:', topEntidadesLabels);
     console.log('Porcentagens do Top 20:', topEntidadesPorcentagens);
 
-    // Obtém o contexto do canvas onde o gráfico será desenhado
     const ctx = document.getElementById('meuGrafico').getContext('2d');
 
-    // Se o gráfico já existir, atualize os dados
     if (meuGrafico) {
-        meuGrafico.data.labels = topEntidadesLabels; // Atualiza os rótulos
-        meuGrafico.data.datasets[0].data = topEntidadesPorcentagens; // Atualiza os dados
-        meuGrafico.update(); // Atualiza o gráfico
+        meuGrafico.data.labels = topEntidadesLabels;
+        meuGrafico.data.datasets[0].data = topEntidadesPorcentagens;
+        meuGrafico.update();
     } else {
-        // Configuração inicial do gráfico
         meuGrafico = new Chart(ctx, {
-            type: 'bar', // Tipo de gráfico: 'bar' para gráfico de barras verticais
+            type: 'bar',
             data: {
                 labels: topEntidadesLabels,
                 datasets: [{
@@ -87,7 +181,17 @@ function criarGrafico(dados) {
                 }]
             },
             options: {
-                indexAxis: 'y', // Isso fará com que o gráfico seja horizontal
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 30,
+                        top: 30,
+                        bottom: 30
+                    }
+                },
+                indexAxis: 'y',
                 scales: {
                     x: {
                         beginAtZero: true,
@@ -104,20 +208,21 @@ function criarGrafico(dados) {
                     }
                 },
                 plugins: {
+                    legend: {
+                        display: false // Remove a legenda do gráfico
+                    },
                     datalabels: {
-                        anchor: 'end', // Onde as labels devem ser ancoradas
-                        align: 'end', // Alinhamento da label
-                        formatter: (value) => {
-                            return value.toFixed(2) + '%'; // Formata a label para mostrar a porcentagem
-                        },
-                        color: 'black', // Cor do texto das labels
+                        anchor: 'end',
+                        align: 'end',
+                        formatter: (value) => value.toFixed(2) + '%',
+                        color: 'black',
                     }
                 }
             },
-            plugins: [ChartDataLabels] // Inclui o plugin
+            plugins: [ChartDataLabels]
         });
     }
 }
 
-// Chama a função para carregar os dados assim que o script for executado
 carregarDados();
+
