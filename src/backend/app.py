@@ -200,10 +200,18 @@ base_premio = resumo_final[
     ]
 ]
 
-base_premio.loc[:, "periodo"] = pd.to_datetime(
-    base_premio["periodo"], format="%Y-%m-%d"
-)
+# base_premio.loc[:, 'periodo'] = pd.to_datetime(base_premio['periodo'], format='%Y-%m-%d', errors='coerce')
+base_premio["periodo"] = pd.to_datetime(base_premio["periodo"], errors="coerce")
+
+base_premio = base_premio.dropna(subset=["premio_dir"])
+
+# Filtrando para manter apenas os registros de 2024
+base_premio = base_premio[base_premio["periodo"].dt.year == 2024]
 
 base_premio.to_json(
-    rf"{path_saida}/base_premio_uf.json", orient="records", date_format="iso", indent=4
+    rf"{path_saida}/base_premio_uf.json",  # Caminho do arquivo de saída
+    orient="records",  # Formato como uma lista de registros (dicionários)
+    date_format="iso",  # Formato de data ISO
+    indent=4,  # Indenta o JSON para melhor legibilidade
+    force_ascii=False,  # Permite caracteres não ASCII                  # Formato para números de ponto flutuante (duas casas decimais)
 )
